@@ -81,13 +81,16 @@ let agregar = document.getElementById("btnAgregar");
     document.getElementById("alertValidaciones").style.display="none";
     contador++;
     document.getElementById("contadorProductos").innerHTML=contador;
+    localStorage.setItem("contadorProductos", contador);
     let precio =(Math.floor((Math.random() * 50)*100))/100;
     let cantidad = parseFloat(txtNumber.value);
     //Math.ceil devuelve el entero mayor o igual más próximo a un número dado.
     totalEnProdcutos += (cantidad<1)?Math.ceil(cantidad):parseInt(cantidad);
     document.getElementById("productosTotal").innerHTML=totalEnProdcutos;
+    localStorage.setItem("productosTotal",totalEnProdcutos);
     costoTotal += (precio * cantidad); 
     total.innerHTML =`$ ${Math.floor(costoTotal*100)/100}`
+    localStorage.setItem("precioTotal", costoTotal.toFixed(2));
     let tmp = `<tr>
 <th scope="row">${contador}</th>
 <td>${txtNombre.value}</td>
@@ -114,3 +117,19 @@ txtNumber.addEventListener("blur", (event)=> {
       y todos los caracteres de terminación de línea (LF, CR, etc.).*/
 //target es el objetivo del evento
 
+window.addEventListener("load", function(){
+    if (localStorage.getItem("contadorProductos")!=null){
+    contador = parseInt(localStorage.getItem("contadorProductos"));
+    document.getElementById("contadorProductos").innerHTML=contador;
+    }//if
+    if (localStorage.getItem("productosTotal")){
+    totalEnProdcutos = parseInt(localStorage.getItem("productosTotal"));
+    document.getElementById("productosTotal").innerHTML=totalEnProdcutos;
+}
+    if (localStorage.getItem("precioTotal")){
+    costoTotal = parseInt(localStorage.getItem("precioTotal"));
+    total.innerHTML=costoTotal;
+    
+    }
+}
+);
