@@ -1,6 +1,7 @@
 let contador=0;
 let costoTotal=0;
 let element = document.getElementById("totalPrecio");
+let totalEnProdcutos=0;
 element.innerHTML="Total en precio";
 
 let txtNombre = document.getElementById("Name");
@@ -82,7 +83,10 @@ let agregar = document.getElementById("btnAgregar");
     document.getElementById("contadorProductos").innerHTML=contador;
     let precio =(Math.floor((Math.random() * 50)*100))/100;
     let cantidad = parseFloat(txtNumber.value);
-    costoTotal += (precio * cantidad);
+    //Math.ceil devuelve el entero mayor o igual más próximo a un número dado.
+    totalEnProdcutos += (cantidad<1)?Math.ceil(cantidad):parseInt(cantidad);
+    document.getElementById("productosTotal").innerHTML=totalEnProdcutos;
+    costoTotal += (precio * cantidad); 
     total.innerHTML =`$ ${Math.floor(costoTotal*100)/100}`
     let tmp = `<tr>
 <th scope="row">${contador}</th>
