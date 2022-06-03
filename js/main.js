@@ -2,6 +2,7 @@ let contador=0;
 let costoTotal=0;
 let element = document.getElementById("totalPrecio");
 let totalEnProdcutos=0;
+let datos =[];
 element.innerHTML="Total en precio";
 
 let txtNombre = document.getElementById("Name");
@@ -91,7 +92,19 @@ let agregar = document.getElementById("btnAgregar");
     costoTotal += (precio * cantidad); 
     total.innerHTML =`$ ${Math.floor(costoTotal*100)/100}`
     localStorage.setItem("precioTotal", costoTotal.toFixed(2));
-    let tmp = `<tr>
+    
+    //esto de abajo es un JSON estudialo mas!!!
+    let elemento=`{"id":${contador},
+    "nombre":"${txtNombre.value}",
+    "cantidad": ${txtNumber.value},
+     "precio":${precio}
+    }`;
+     datos.push(JSON.parse(elemento));
+     localStorage.setItem("elementosTabla",JSON.stringify(datos));
+    console.log(datos);
+
+    
+     let tmp = `<tr>
 <th scope="row">${contador}</th>
 <td>${txtNombre.value}</td>
 <td>${txtNumber.value}</td>
@@ -130,6 +143,17 @@ window.addEventListener("load", function(){
     costoTotal = parseInt(localStorage.getItem("precioTotal"));
     total.innerHTML=costoTotal;
     
+    }//if
+    if(localStorage.getItem("elementosTabla")!=null){
+        datos=JSON.parse(localStorage.getItem("elementosTabla"));
+        datos.forEach(element => {
+            cuerpoTabla[0].innerHTML +=`<tr>
+            <th scope="row">${element.id}</th>
+            <td>${element.nombre}</td>
+            <td>${element.cantidad}</td>
+            <td>$ ${element.precio}</td>
+            </tr>`;
+        });
     }
 }
 );
